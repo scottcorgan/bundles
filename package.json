@@ -1,0 +1,28 @@
+{
+  "name": "bundles",
+  "version": "0.0.1",
+  "description": "Flexible standalone middleware stacker with hooks",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scottcorgan/bundles.git"
+  },
+  "keywords": [
+    "connect",
+    "express",
+    "stack",
+    "bundle"
+  ],
+  "author": "Scott Corgan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scottcorgan/bundles/issues"
+  },
+  "homepage": "https://github.com/scottcorgan/bundles"
+}
