@@ -1,6 +1,8 @@
 # bundles
 
-Flexible standalone middleware stacker with hooks
+Flexible standalone middleware stacker with hooks. This is useful for bundling together functionality as one standalone middleware for use with other modules like [Connect](https://www.npmjs.org/package/connect) or [Express](https://www.npmjs.org/package/express).
+
+Bundles provides hooks so that you can inject functionality after the middleware has been bundled together. This is useful for third parties to hook into your bundled middleware.
 
 ## Install
 
