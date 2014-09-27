@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var request = require('supertest');
 var connect = require('connect');
 
-describe('bundles stacking', function () {
+describe('bundling', function () {
   
   it('creates a stack of middleware in order', function (done) {
     
@@ -74,7 +74,7 @@ describe('bundles stacking', function () {
   });
 });
 
-describe('bundles hooks', function () {
+describe('hooks', function () {
   
   it('creates blank before hook stacks on normal stack layer creation', function () {
     
@@ -182,5 +182,78 @@ describe('bundles hooks', function () {
       callstack.push('after bundle');
       next();
     }
+  });
+});
+
+describe('intercept response', function () {
+  
+  it('modifies the response body', function (done) {
+    
+    var app = connect();
+    var bundle = bundles();
+    
+    bundle.onResponse(function (body, req, res) {
+      
+      var data = JSON.parse(body);
+      data.intercepted = 'hijacked';
+      
+      return JSON.stringify(data);
+    });
+    
+    app.use(bundle);
+    app.use(function (req, res) {
+      
+      res.end(JSON.stringify({
+        name: 'test'
+      }));
+    });
+    
+    request(app)
+      .get('/')
+      .expect(JSON.stringify({
+        name: 'test',
+        intercepted: 'hijacked'
+      }))
+      .end(done);
+  });
+  
+  it('modifies the body with multiple interceptors', function (done) {
+    
+    var app = connect();
+    var bundle = bundles();
+    
+    bundle.onResponse(function (body, req, res) {
+      
+      var data = JSON.parse(body);
+      data.intercepted1 = 'hijacked1';
+      
+      return JSON.stringify(data);
+    });
+    
+    bundle.onResponse(function (body, req, res) {
+          
+      var data = JSON.parse(body);
+      data.intercepted2 = 'hijacked2';
+      
+      return JSON.stringify(data);
+    });
+    
+    app.use(bundle);
+    app.use(function (req, res) {
+      
+      res.write(JSON.stringify({
+        name: 'test'
+      }));
+      res.end();
+    });
+    
+    request(app)
+      .get('/')
+      .expect(JSON.stringify({
+        name: 'test',
+        intercepted1: 'hijacked1',
+        intercepted2: 'hijacked2'
+      }))
+      .end(done);
   });
 });
