@@ -62,6 +62,35 @@ app.listen(3000, function () {
 });
 ```
 
+## API
+
+### bundle.use([name, ] callback)
+
+Declare middleware in the bundle.
+
+* `name` - OPTIONAL - name of the middleware. Useful for hook into middleware chain
+* `callback` - typical middleware callback to that takes 3 arguments: `req`, `res`, `next`
+
+### bundle.useBefore(name, callback)
+
+Hook a middleware before the named middleware
+
+* `name` - the name of the middleware to hook before
+* `callback` - typical middleware callback to that takes 3 arguments: `req`, `res`, `next`
+
+### bundle.useAfter(name, callback)
+
+Hook a middleware after the named middleware
+
+* `name` - the name of the middleware to hook after
+* `callback` - typical middleware callback to that takes 3 arguments: `req`, `res`, `next`
+
+### bundle.onResponse(callback)
+
+Intercept the response object and modify the response body.
+
+* `callback` - a function to execute on interception. The body will become the value returned from the function. Function takes 3 parameters: `body`, `req`, and `res`.
+
 ## Run Tests
 
 ```
