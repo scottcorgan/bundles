@@ -1,19 +1,9 @@
 // Intercept request and response objects
-require('http-intercept');
 var async = require('async');
 
 module.exports = function () {
   
   var bundle = function (req, res, next) {
-    
-    // Handle response modifers/interceptors first
-    res.intercept(function (ctx) {
-      
-      bundle._responseModifiers.forEach(function (modifier) {
-        
-        ctx.buffer = modifier.handler(ctx.buffer.toString(), req, res);
-      });
-    });
     
     // Execute stack
     bundle._executeStack(bundle._stack, req, res, next);
@@ -22,7 +12,6 @@ module.exports = function () {
   bundle._stack = [];
   bundle._before = {};
   bundle._after = {};
-  bundle._responseModifiers = [];
   
   bundle._executeStack = function (stack, req, res, stackExecuationDone) {
     
@@ -87,16 +76,6 @@ module.exports = function () {
       handler: fn
     });
     
-    return bundle;
-  };
-  
-  bundle.onResponse = function (modifyFn) {
-    
-    bundle._responseModifiers.push({
-      handler: modifyFn
-    });
-    
-    // TODO: test this chaining
     return bundle;
   };
   

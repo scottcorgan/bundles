@@ -2,8 +2,6 @@
 
 Flexible standalone middleware stacker with hooks. This is useful for bundling together functionality as one standalone middleware for use with other modules like [Connect](https://www.npmjs.org/package/connect) or [Express](https://www.npmjs.org/package/express).
 
-Bundles provides hooks so that you can inject functionality after the middleware has been bundled together. This is useful for third parties to hook into your bundled middleware.
-
 ## Install
 
 ```
@@ -84,12 +82,6 @@ Hook a middleware after the named middleware
 
 * `name` - the name of the middleware to hook after
 * `callback` - typical middleware callback to that takes 3 arguments: `req`, `res`, `next`
-
-### bundle.onResponse(callback)
-
-Intercept the response object and modify the response body.
-
-* `callback` - a function to execute on interception. The body will become the value returned from the function. Function takes 3 parameters: `body`, `req`, and `res`.
 
 ## Run Tests
 
